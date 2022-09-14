@@ -1,8 +1,12 @@
 import Phaser from "phaser";
 
 export default class Plane extends Phaser.GameObjects.Sprite {
+  isMoving: boolean;
+
   constructor(scene) {
     super(scene, 400, 300, "planes", "planeBlue1.png");
+
+    this.isMoving = true;
 
     scene.add.existing(this);
 
@@ -17,12 +21,23 @@ export default class Plane extends Phaser.GameObjects.Sprite {
     });
 
     this.play("planeMoving");
+    
     scene.physics.add.existing(this);
-
     this.body.setAllowGravity(true);
+    this.body.setCollideWorldBounds(true, null, null, true);
+    this.body.onWorldBounds = true;
+
+    scene.physics.world.once("worldbounds", (body, _, collideDown) => {
+      if (collideDown) {
+        this.isMoving = false;
+        this.stop();
+      }
+    })
   }
 
   movePlaneUp() {
-    this.body.setVelocityY(-240);
+    if (this.isMoving) {
+      this.body.setVelocityY(-240);
+    }
   }
 }
