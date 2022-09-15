@@ -23,20 +23,15 @@ export default class Plane extends Phaser.GameObjects.Sprite {
     this.play("planeMoving");
     
     scene.physics.add.existing(this);
+    this.body.setAccelerationY(300)
     this.body.setAllowGravity(true);
     this.body.setCollideWorldBounds(true, null, null, true);
     this.body.onWorldBounds = true;
-
-    scene.physics.world.once("worldbounds", (body, _, collideDown) => {
-      if (collideDown) {
-        scene.gameOver();
-      }
-    })
   }
 
   movePlaneUp() {
     if (this.isMoving) {
-      this.body.setVelocityY(-240);
+      this.body.setVelocityY(-280);
     }
   }
 

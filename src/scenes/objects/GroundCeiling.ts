@@ -14,13 +14,14 @@ export default class GroundCeiling extends Phaser.GameObjects.Group {
       setXY: { x: 0, y: 600, stepX: 808}, 
     })
 
-    // stepX is the length of the image
-    // basically just get the two of them next to each other
+    // stepX is the length of the image.
+    // Basically just get the two of them next to each other
     // so when one is off screen we can move it to the right
 
     this.getChildren().forEach((ground) => {
       scene.physics.add.existing(ground);
       ground.body.setAllowGravity(false);
+      ground.body.setImmovable(true);
       ground.body.setVelocityX(-300)
     })
   }
