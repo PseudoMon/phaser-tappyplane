@@ -29,8 +29,7 @@ export default class Plane extends Phaser.GameObjects.Sprite {
 
     scene.physics.world.once("worldbounds", (body, _, collideDown) => {
       if (collideDown) {
-        this.isMoving = false;
-        this.stop();
+        scene.gameOver();
       }
     })
   }
@@ -39,5 +38,10 @@ export default class Plane extends Phaser.GameObjects.Sprite {
     if (this.isMoving) {
       this.body.setVelocityY(-240);
     }
+  }
+
+  stopMoving() {
+    this.isMoving = false;
+    this.stop(); // Stop animation
   }
 }
