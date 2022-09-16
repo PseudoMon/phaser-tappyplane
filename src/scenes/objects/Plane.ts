@@ -35,28 +35,35 @@ export default class Plane extends Phaser.GameObjects.Sprite {
   }
 
   movePlaneUp() {
-    if (this.isMoving) {
-      this.body.setVelocityY(-280);
-    }
+    this.body.setVelocityY(-280);
+  }
+
+  movePlaneLeft() {
+    this.body.setVelocityX(-180);
   }
 
   stopMoving() {
     this.isMoving = false;
+
     this.stop(); // Stop animation
   }
 
   update() {
-    // When left key is down, go right
-    // when it's not, gives acceleration so they'll be at the
-    // middle of the screen
+    // Don't respond if the plane is not moving
+    if (!this.isMoving) return
 
+    // When the jump key was tapped, jump
     if (Phaser.Input.Keyboard.JustDown(this.jumpKey)) {
       this.movePlaneUp();
     }
 
+    // When left key is down, go right.
+    // when it's not, gives acceleration so they'll be at the
+    // middle of the screen
     if (this.leftKey.isDown) {
-      this.body.setVelocityX(-180);
+      this.movePlaneLeft();
     }
+
     else if (this.x < 400) {
       this.body.setAccelerationX(200);
     }

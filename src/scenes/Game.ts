@@ -2,15 +2,19 @@ import Phaser from 'phaser';
 import Plane from "./objects/Plane"
 import GroundCeiling from "./objects/GroundCeiling"
 import Rock from "./objects/Rock"
+import LivesIndicator from "./objects/LivesIndicator"
 
 export default class Demo extends Phaser.Scene {
   plane: Phaser.GameObjects.Sprite;
+  // TODO more typing
 
   constructor() {
     super('GameScene');
     this.plane;
     this.grounds;
+    this.lives = 3;
     this.isPaused = false;
+    this.gameOverSign;
   }
 
   preload() {
@@ -26,11 +30,17 @@ export default class Demo extends Phaser.Scene {
     this.plane = new Plane(this);
     this.grounds = new GroundCeiling(this, "below");
     //this.grounds = new GroundCeiling(this, "above");
+    // nvm we don't need a ceiling
     this.rocks = new Rock(this, "ground");
     this.ceilingRocks = new Rock(this, "ceiling");
+    this.livesIndicator = new LivesIndicator(this);
+    this.gameOverSign = this.add.image(400, 300, "environ", "textGameOver.png")
+      .setVisible(false)
+      .setActive(false);
 
-    this.input.on("pointerup", () => this.plane.movePlaneUp());
+
     this.input.keyboard.on("keyup",(event) => {
+      // Mostly debug functions
       if (event.key === "r") {
         this.restart();
         return;
@@ -39,6 +49,10 @@ export default class Demo extends Phaser.Scene {
       if (event.key === "m") {
         this.rocks.createNewRock();
         return;
+      }
+
+      if (event.key === "l") {
+        this.livesIndicator.loseLife()
       }
     });
 
@@ -55,7 +69,12 @@ export default class Demo extends Phaser.Scene {
   }
 
   gameOver() {
-    return; 
+    // return; 
+    console.log("GAME OVER");
+
+    this.gameOverSign.setActive(true);
+    this.gameOverSign.setVisible(true);
+
     this.plane.stopMoving();
     this.grounds.stopMoving();
     this.rocks.stopMoving();
@@ -64,13 +83,21 @@ export default class Demo extends Phaser.Scene {
   }
 
   restart() {
+    this.gameOverSign.setVisible(false);
+    this.gameOverSign.setActive(false);
+
     // Probably better with a game object pool? idk
     this.plane.destroyPlane();
     this.plane = new Plane(this);
+
+    this.livesIndicator.restart();
+
+    // Redo collider
     this.physics.world.addCollider(this.plane, this.grounds, () => {
       this.gameOver();
     })
 
+    // TODO Restart grounds and rocks
     this.grounds.startMoving();
     this.rocks.restartMovement();
     this.ceilingRocks.restartMovement();

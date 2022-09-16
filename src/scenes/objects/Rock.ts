@@ -52,7 +52,9 @@ export default class Rock extends Phaser.GameObjects.Group {
     console.log('made rokc')  
     console.log(this.getChildren().length)
 
-    this.scene.physics.world.addCollider(this.scene.plane, newRock, () => this.scene.gameOver())
+    this.scene.physics.world.addCollider(this.scene.plane, newRock, () => {
+      this.scene.livesIndicator.loseLife()
+    })
   }
 
   getRandomHeight() {
