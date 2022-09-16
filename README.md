@@ -1,12 +1,13 @@
-<h1 align="center">
-  <br>
-  <a href="https://github.com/geocine/phaser3-rollup-typescript#readme"><img src="https://i.imgur.com/6lcIxDs.png" alt="header" width="600"/></a>
-  <br>
-  Phaser 3 TypeScript Starter
-  <br>
-</h1>
+# Tappy Plane
 
-This is a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeScript](https://www.typescriptlang.org/), [Rollup](https://rollupjs.org) with ⚡️ lightning fast HMR through [Vite](https://vitejs.dev/).
+Practice project for Phaser 3. Because we have free time at work and studying game programming seems like a good use of our time. Uses [Phaser 3 TypeScript Starter by geocine](https://github.com/geocine/phaser3-rollup-typescript). Uses asset from [Kenney Game Assets 1](https://kenney.itch.io/kenney-game-assets-1).
+
+## TODO
+1. Collission with stalactites and stalagmites
+2. Manage the number/frequency/range of height for stalactices and stalagmites
+3. Score counter
+4. Main menu
+5. Host through surge
 
 ## Available Commands
 
@@ -16,6 +17,8 @@ This is a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeSc
 | `yarn dev` | Builds project and open web server, watching for changes |
 | `yarn build` | Builds code bundle with production settings  |
 | `yarn serve` | Run a web server to serve built code bundle |
+
+This is a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeScript](https://www.typescriptlang.org/), [Rollup](https://rollupjs.org) with ⚡️ lightning fast HMR through [Vite](https://vitejs.dev/).
 
 ## Development
 
