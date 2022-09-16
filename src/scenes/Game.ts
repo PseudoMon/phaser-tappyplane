@@ -15,6 +15,8 @@ export default class Demo extends Phaser.Scene {
     this.lives = 3;
     this.isPaused = false;
     this.gameOverSign;
+    this.scoreText;
+    this.score = 0;
   }
 
   preload() {
@@ -33,11 +35,12 @@ export default class Demo extends Phaser.Scene {
     // nvm we don't need a ceiling
     this.rocks = new Rock(this, "ground");
     this.ceilingRocks = new Rock(this, "ceiling");
-    this.livesIndicator = new LivesIndicator(this);
+    this.livesIndicator = new LivesIndicator(this, this.lives);
     this.gameOverSign = this.add.image(400, 300, "environ", "textGameOver.png")
       .setVisible(false)
       .setActive(false);
 
+    this.scoreText = this.add.text(600, 40, `Score: ${this.score}`, { fontSize: '32px', fill: '#000' });
 
     this.input.keyboard.on("keyup",(event) => {
       // Mostly debug functions
@@ -59,6 +62,11 @@ export default class Demo extends Phaser.Scene {
     this.physics.world.addCollider(this.plane, this.grounds, () => {
       this.gameOver();
     })
+
+    this.time.addEvent({ delay: 500, loop: true, callback: () => {
+      this.score += 1;
+      this.scoreText.setText(`Score: ${this.score}`);
+    }})
   }
 
   update() {
@@ -75,6 +83,8 @@ export default class Demo extends Phaser.Scene {
     this.gameOverSign.setActive(true);
     this.gameOverSign.setVisible(true);
 
+    this.time.removeAllEvents();
+
     this.plane.stopMoving();
     this.grounds.stopMoving();
     this.rocks.stopMoving();
@@ -83,6 +93,10 @@ export default class Demo extends Phaser.Scene {
   }
 
   restart() {
+    this.time.removeAllEvents();
+    this.score = 0;
+    this.scoreText.setText(`Score: ${this.score}`);
+
     this.gameOverSign.setVisible(false);
     this.gameOverSign.setActive(false);
 
@@ -101,5 +115,10 @@ export default class Demo extends Phaser.Scene {
     this.grounds.startMoving();
     this.rocks.restartMovement();
     this.ceilingRocks.restartMovement();
+
+    this.time.addEvent({ delay: 500, loop: true, callback: () => {
+      this.score += 1;
+      this.scoreText.setText(`Score: ${this.score}`);
+    }})
   }
 }

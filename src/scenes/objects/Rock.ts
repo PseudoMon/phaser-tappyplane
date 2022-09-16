@@ -22,6 +22,7 @@ export default class Rock extends Phaser.GameObjects.Group {
   createNewRock(xpos: number = 900) {
     const originY = this.location === "ground" ? 1 : 0;
     const ypos = this.location === "ground" ? 600 : 0;
+    
     const newRock = this.get(xpos, ypos);
 
     const randomizedHeightScaling = this.getRandomHeight();
@@ -37,15 +38,17 @@ export default class Rock extends Phaser.GameObjects.Group {
     newRock.body.setImmovable(true);
     newRock.body.setVelocityX(-330);
 
-    // newRock.body.setSize(60/100 * newRock.displayWidth, newRock.displayHeight - 20);
+    console.log("WIDTH", newRock.displayWidth, "HEIGHT", newRock.displayHeight)
 
-    // if (this.location === "ground") {
-    //   newRock.body.setOffset(20/100 * newRock.displayWidth, 0);
-    // }
+    newRock.body.setSize(newRock.displayWidth, 200, true);
 
-    // if (this.location === "ceiling") {
-    //   newRock.body.setOffset(20/100 * newRock.displayWidth, 0)
-    // }
+    if (this.location === "ground") {
+      newRock.body.setOffset(0, 50);
+    }
+
+    if (this.location === "ceiling") {
+      newRock.body.setOffset(0, 0)
+    }
 
     // offset is still broken, idk
 
